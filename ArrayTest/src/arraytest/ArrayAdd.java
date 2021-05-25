@@ -17,7 +17,7 @@ public class ArrayAdd {
 			}
 			arrNew[arr.length] = newNum;
 			arr = arrNew;
-			System.out.println("添加成功\n是否继续？(y/n)");
+			System.out.println("添加成功\n是否继续?(y/n)");
 //			String ch = input.next();
 //			char ch1 = ch.charAt(0);
 			char ch = input.next().charAt(0);

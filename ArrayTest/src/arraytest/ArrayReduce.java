@@ -3,6 +3,7 @@ package arraytest;
 import java.util.Iterator;
 import java.util.Scanner;
 
+@SuppressWarnings("unused")
 public class ArrayReduce {
 
 	@SuppressWarnings("all")
