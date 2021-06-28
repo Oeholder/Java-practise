@@ -59,10 +59,10 @@ public class Problem1012_数字分类 {
         double avg = (double)arr[3] / count2;
         
         for (int i = 0; i < 5; i++) {
-        	if(i == 2 && count1 != 0) {
-        		System.out.print(arr[2] + " ");
+        	if(i == 1 && count1 != 0) {
+        		System.out.print(arr[1] + " ");
 				continue;
-        	}else if(i == 2 && count1 == 0){
+        	}else if(i == 1 && count1 == 0){
                 System.out.print("N ");
                 continue;
             }
