@@ -1,10 +1,13 @@
-package com.hhr;
+package com.hhr.single;
 
 import java.util.Iterator;
+
+import com.hhr.AbstractList;
 /**
  *项目名称:DynamicArray
  *类名称:ArrayList
  *类描述:动态数组
+ *特点:随机访问速度很快
  *创建人:郝鸿儒
  *创建时间:2021年6月24日 上午11:09:50
  *版本: 1.0
@@ -24,14 +27,14 @@ public class ArrayList<E> extends AbstractList<E>{
 	@Override
 	public E get(int index) {
 		rangeCheck(index);
-		return elements[index];
+		return elements[index];//复杂度O(1)
 	}
 	
 	@Override
 	public E set(int index, E element) {
 		rangeCheck(index);
 		E old = elements[index];
-		elements[index] = element;
+		elements[index] = element;//复杂度O(1)
 		return old;
 	}
 	
@@ -41,7 +44,14 @@ public class ArrayList<E> extends AbstractList<E>{
 		ensureCapacity(size + 1);
 		
 		for (int i = size - 1; i >= index; i--) {
-			elements[i + 1] = elements[i];
+			
+			/* 
+			 * size是数据规模
+			 * 最好复杂度O(1) 在最后面添加元素 
+			 * 最坏复杂度O(n) 在最前面添加元素
+			 * 平均复杂度O((1+2+3+...+n)/n) = O(n/2) = O(n)
+			 */
+		elements[i + 1] = elements[i];
 		}
 		elements[index] = element;
 		size++;
@@ -51,10 +61,16 @@ public class ArrayList<E> extends AbstractList<E>{
 	public E remove(int index) {
 		rangeCheck(index);
 		E old = elements[index];
-		for (int i = 0; i < size - index; i++) {
-			elements[index] = elements[index + 1];
+		for (int i = index; i < size - 1; i++) {
+			/* 
+			 * 最好复杂度O(1) 在最后面删除元素 
+			 * 最坏复杂度O(n) 在最前面删除元素
+			 * 平均复杂度O((1+2+3+...+n)/n) = O(n/2) = O(n)
+			 */
+			elements[i] = elements[i + 1];
 		}
 		elements[--size] = null;
+		trim();
 		return old;
 	}
 	
@@ -92,7 +108,7 @@ public class ArrayList<E> extends AbstractList<E>{
 	}
 	
 	/**
-	 * 保证数组容量
+	 * 动态扩容（保证数组容量）
 	 * @param capacity
 	 */
 	private void ensureCapacity(int Capacity) {
@@ -107,6 +123,20 @@ public class ArrayList<E> extends AbstractList<E>{
 		}
 		elements = newElements;
 		//System.out.println(oldCapacity + "扩容为：" + newCapacity);
+	}
+	
+	/**
+	 * 动态缩容（减少内存空间浪费）
+	 */
+	private void trim() {
+		int capacity = elements.length;
+		if(size >= (capacity >> 1) || capacity <= DEFAULT_CAPACITY) return;
+		int newCapacity = capacity >> 1;
+		E[] newElements = (E[]) new Object[newCapacity];
+		for (int i = 0; i < size; i++) {
+			newElements[i] = elements[i];
+		}
+		elements = newElements;
 	}
 	
 	@Override

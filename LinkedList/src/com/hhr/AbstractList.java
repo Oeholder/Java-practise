@@ -54,6 +54,13 @@ public abstract class AbstractList<E> implements List<E>{
 	 */
 	public void add(E element){
 		add(size, element);
+		/*
+		 * 和ArrayList.ensureCapacity有关
+		 * 最好复杂度O(1)
+		 * 最坏复杂度O(n)
+		 * 平均复杂度O(1)
+		 * 均摊复杂度O(1)
+		 */
 	}
 	
 	/**
