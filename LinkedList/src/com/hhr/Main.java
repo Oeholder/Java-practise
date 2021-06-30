@@ -4,7 +4,7 @@ package com.hhr;
 public class Main {
 
 	public static void main(String[] args) {
-		test();
+		//test();
 		List<Integer> list = new LinkedList<>();
 		list.add(1);
 		list.add(2);

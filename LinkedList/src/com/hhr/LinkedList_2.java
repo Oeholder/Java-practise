@@ -1,24 +1,25 @@
 package com.hhr;
+
 /**
+ * 
  *项目名称:LinkedList
- *类名称:LinkedList
- *类描述:链表
+ *类名称:LinkedList_2
+ *类描述:链表（增加虚拟头结点）
+ *虚拟头结点：有时候为了让代码更加精简，统一所有节点的处理逻辑，可以在最前面增加一个虚拟的头结点（不存储数据)
+ *
  *创建人:郝鸿儒
- *创建时间:2021年6月24日 上午11:10:19
+ *创建时间:2021年6月30日 上午9:21:32
  *版本: 1.0
  */
-/*
- * 虚拟头结点:有时候为了让代码更加精简，统一所有节点的处理逻辑，可以在最前面增加一个虚拟的头结点（不存储数据)
- */
 @SuppressWarnings("all")
-public class LinkedList<E> extends AbstractList<E>{
-	private Node fistNode;
+public class LinkedList_2<E> extends AbstractList<E>{
+	private Node<E> fistNode;
 	
-	public LinkedList() {
-		
+	public LinkedList_2() {
+		fistNode = new Node<>(null, null);
 	}
 	
-	public LinkedList(int size) {
+	public LinkedList_2(int size) {
 		super();
 		this.fistNode = fistNode;
 	}
@@ -51,27 +52,23 @@ public class LinkedList<E> extends AbstractList<E>{
 	@Override
 	public void add(int index, E element) {
 		rangeCheckForAdd(index);
-		if(index == 0) {
-			fistNode = new Node<>(element, fistNode);
-		}else {
-			Node<E> prev = node(index - 1);
-			prev.nextNode = new Node<>(element, prev.nextNode);
-		}
+		
+		Node<E> prev = index == 0 ? fistNode : node(index - 1);
+		prev.nextNode = new Node<>(element, prev.nextNode);
+		
 		size++;
 	}
 
 	@Override
 	public E remove(int index) {
 		rangeCheck(index);
-		E oldElement = node(index).element;
-		if(index == 0) {
-			fistNode = fistNode.nextNode;
-		}else {
-			Node<E> prev = node(index - 1);
-			prev.nextNode = node(index).nextNode;
-		}
+		
+		Node<E> prev = index == 0 ? fistNode : node(index - 1);
+		Node<E> node = prev.nextNode;
+		prev.nextNode = node.nextNode;
+		
 		size--;
-		return oldElement;
+		return node.element;
 	}
 
 	@Override
@@ -110,7 +107,7 @@ public class LinkedList<E> extends AbstractList<E>{
 	 */
 	private Node<E> node(int index) {
 		rangeCheck(index);
-		Node<E> node = fistNode;
+		Node<E> node = fistNode.nextNode;
 		for (int i = 0; i < index; i++) {
 			node = node.nextNode;
 		}
@@ -124,7 +121,7 @@ public class LinkedList<E> extends AbstractList<E>{
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("size=").append(size).append(", [");
-		Node<E> node = fistNode;
+		Node<E> node = fistNode.nextNode;
 		for (int i = 0; i < size; i++) {
 			if(i != 0) str.append(", ");
 			str.append(node.element);
